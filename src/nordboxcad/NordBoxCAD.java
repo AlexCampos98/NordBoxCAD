@@ -287,9 +287,33 @@ public class NordBoxCAD
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(Integer idUsuario, Integer idEjercicio) throws ExcepcionNordBox
     {
         conectar();
-        String dql = "SELECT * FROM ejercicioBenchUsuario WHERE id_ejeBench=? AND id_usu=? ORDER BY fecha";
-        //TODO terminar, dql funciona.
-        return null;
+        String dql = "SELECT * FROM ejercicioBenchUsuario WHERE id_ejeBench=? AND id_usu=? ORDER BY fecha DESC";
+        ArrayList<EjercicioBenchUsuario> arrayList = new ArrayList<>();
+        
+        try
+        {
+            PreparedStatement preparedStatement = conexion.prepareStatement(dql);
+            preparedStatement.setObject(1, idEjercicio, Types.INTEGER);
+            preparedStatement.setObject(2, idUsuario, Types.INTEGER);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while(resultSet.next())
+            {
+                EjercicioBenchUsuario benchUsuario = new EjercicioBenchUsuario();
+                benchUsuario.setId(resultSet.getInt("id"));
+                benchUsuario.setId_ejeBench(resultSet.getInt("id_ejeBench"));
+                benchUsuario.setId_usu(resultSet.getInt("id_usu"));
+                benchUsuario.setFecha(resultSet.getDate("fecha"));
+                benchUsuario.setPeso(resultSet.getInt("peso"));
+                
+                arrayList.add(benchUsuario);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(NordBoxCAD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return arrayList;
     }
 
     private static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException

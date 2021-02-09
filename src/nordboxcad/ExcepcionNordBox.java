@@ -9,7 +9,7 @@ package nordboxcad;
  *
  * @author Alejandro Campos Maestre
  */
-class ExcepcionNordBox extends Exception
+public class ExcepcionNordBox extends Exception
 {
     String mensajeErrorUsuario, mensajeErrorAdministrador, sentenciaSQL;
     Integer codigoError;
