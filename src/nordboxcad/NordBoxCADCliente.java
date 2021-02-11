@@ -164,7 +164,6 @@ public class NordBoxCADCliente
      * @param idUsuario
      * @param idEjercicio
      * @param peso
-     * @throws nordboxcad.ExcepcionNordBox
      */
     public void crearEjeBench(Integer idUsuario, Integer idEjercicio, Integer peso)
     {
