@@ -5,11 +5,13 @@
  */
 package nordboxcad;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alejandro Campos Maestre
  */
-public class Usuario
+public class Usuario implements Serializable
 {
     Integer id;
     String correo, password, nombre, pApellido, sApellido, telefono, telefonoEmergencia;
