@@ -171,6 +171,27 @@ public class NordBoxCADCliente
 
     }
 
+    public ArrayList<EjerciciosBench> ejeBench ()
+    {
+        ArrayList<EjerciciosBench> arrayList = new ArrayList<>();
+        
+        try{
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+
+            envioData.writeUTF("ejeBench");
+            arrayList = (ArrayList<EjerciciosBench>) recepcionObject.readObject();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return arrayList;
+    }
+    
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(Integer idUsuario, Integer idEjercicio)
     {
         ArrayList<EjercicioBenchUsuario> benchUsuarios = null;
