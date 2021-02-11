@@ -24,18 +24,8 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
+        Usuario usuario = new Usuario(null, "aa@aa.aa", "kk");
         
-        ArrayList<EjerciciosBench> bench;
-        
-        bench = boxCAD.ejeBench();
-        
-        Iterator<EjerciciosBench> i = bench.iterator();
-        
-        while (i.hasNext())
-        {            
-            EjerciciosBench ejerciciosBench = i.next();
-            
-            System.out.println(ejerciciosBench.toString());
-        }
+        boxCAD.comprobarLogin(usuario);
     }
 }

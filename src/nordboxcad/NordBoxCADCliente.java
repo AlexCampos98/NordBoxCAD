@@ -70,12 +70,16 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
-            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            
+            
             
             envioData.writeUTF("crearUsuario");
             
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
+            
             envioObject.writeObject(usuario);
+            
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             
             resultado = (int) recepcionObject.readObject();
             
@@ -97,13 +101,13 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
-            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
 
             envioData.writeUTF("insertarEjerciciosBench");
             System.out.println("Objeto");
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(bench);
             System.out.println("Recepcion");
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             resultado = (int) recepcionObject.readObject();
         } catch (IOException ex)
         {
@@ -128,12 +132,14 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
-            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            
+            
 
             envioData.writeUTF("comprobarLogin");
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(usuario);
 
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             u = (Usuario) recepcionObject.readObject();
 
         } catch (IOException | ClassNotFoundException ex)
@@ -176,9 +182,12 @@ public class NordBoxCADCliente
         
         try{
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            
 
             envioData.writeUTF("ejeBench");
+            
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            
             arrayList = (ArrayList<EjerciciosBench>) recepcionObject.readObject();
         } catch (IOException ex)
         {
