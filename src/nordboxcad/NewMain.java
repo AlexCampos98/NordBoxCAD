@@ -5,6 +5,7 @@
  */
 package nordboxcad;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -24,8 +25,18 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        Usuario usuario = new Usuario(null, "aa@aa.aa", "kk");
+        File origen = new File("C:\\Users\\alex_\\Desktop\\Avatares\\prueba1.png");
+       
+        Usuario usuario = new Usuario(3, "aa@aa.aa", null ,"nombre", "apellido", "2Apellido", "134654", "5664", 123, "sad", "asdda", origen);
         
-        boxCAD.comprobarLogin(usuario);
+        int resultado = boxCAD.modificarUsuarioNoPass(usuario);
+        
+        if(resultado>0)
+        {
+            System.out.println("Exito");
+        } else
+        {
+            System.out.println("Fallo");
+        }
     }
 }

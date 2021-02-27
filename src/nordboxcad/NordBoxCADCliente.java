@@ -7,6 +7,7 @@ package nordboxcad;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -70,9 +71,6 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            
-            
-            
             envioData.writeUTF("crearUsuario");
             
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
@@ -101,12 +99,13 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-
             envioData.writeUTF("insertarEjerciciosBench");
-            System.out.println("Objeto");
+//            System.out.println("Objeto");
+            
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(bench);
-            System.out.println("Recepcion");
+//            System.out.println("Recepcion");
+            
             ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             resultado = (int) recepcionObject.readObject();
         } catch (IOException ex)
@@ -132,10 +131,8 @@ public class NordBoxCADCliente
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            
-            
-
             envioData.writeUTF("comprobarLogin");
+            
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(usuario);
 
@@ -162,6 +159,39 @@ public class NordBoxCADCliente
         Usuario u = null;
 
         return u;
+    }
+    
+    //TODO falta la fase de renombre del archivo
+    public int modificarUsuarioNoPass(Usuario usuario)
+    {
+        int resultado = 0;
+        File renombrar = new File(usuario.getId() + ".png");
+        System.out.println(renombrar.getName());
+        if(usuario.getImg().renameTo(renombrar))
+        {
+            System.out.println("Cambio");
+        }
+        System.out.println(usuario.getImg().getName());
+        
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("modificarUsuarioNoPass");
+            
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketCliente.getOutputStream());
+            objectOutputStream.writeObject(usuario);
+            
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketCliente.getInputStream());
+            resultado = (int) objectInputStream.readObject();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return resultado;
     }
 
     /**
@@ -206,67 +236,4 @@ public class NordBoxCADCliente
 
         return benchUsuarios;
     }
-
-//    private static String generateStorngPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException
-//    {
-//        int iterations = 1000;
-//        char[] chars = password.toCharArray();
-//        byte[] salt = getSalt();
-//
-//        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
-//        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-//        byte[] hash = skf.generateSecret(spec).getEncoded();
-//        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
-//    }
-//
-//    private static byte[] getSalt() throws NoSuchAlgorithmException
-//    {
-//        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-//        byte[] salt = new byte[16];
-//        sr.nextBytes(salt);
-//        return salt;
-//    }
-//
-//    private static String toHex(byte[] array) throws NoSuchAlgorithmException
-//    {
-//        BigInteger bi = new BigInteger(1, array);
-//        String hex = bi.toString(16);
-//        int paddingLength = (array.length * 2) - hex.length();
-//        if (paddingLength > 0)
-//        {
-//            return String.format("%0" + paddingLength + "d", 0) + hex;
-//        } else
-//        {
-//            return hex;
-//        }
-//    }
-//
-//    private static boolean validatePassword(String originalPassword, String storedPassword) throws NoSuchAlgorithmException, InvalidKeySpecException
-//    {
-//        String[] parts = storedPassword.split(":");
-//        int iterations = Integer.parseInt(parts[0]);
-//        byte[] salt = fromHex(parts[1]);
-//        byte[] hash = fromHex(parts[2]);
-//
-//        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, iterations, hash.length * 8);
-//        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-//        byte[] testHash = skf.generateSecret(spec).getEncoded();
-//
-//        int diff = hash.length ^ testHash.length;
-//        for (int i = 0; i < hash.length && i < testHash.length; i++)
-//        {
-//            diff |= hash[i] ^ testHash[i];
-//        }
-//        return diff == 0;
-//    }
-//
-//    private static byte[] fromHex(String hex) throws NoSuchAlgorithmException
-//    {
-//        byte[] bytes = new byte[hex.length() / 2];
-//        for (int i = 0; i < bytes.length; i++)
-//        {
-//            bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
-//        }
-//        return bytes;
-//    }
 }
