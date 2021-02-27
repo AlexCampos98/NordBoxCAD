@@ -165,13 +165,6 @@ public class NordBoxCADCliente
     public int modificarUsuarioNoPass(Usuario usuario)
     {
         int resultado = 0;
-        File renombrar = new File(usuario.getId() + ".png");
-        System.out.println(renombrar.getName());
-        if(usuario.getImg().renameTo(renombrar))
-        {
-            System.out.println("Cambio");
-        }
-        System.out.println(usuario.getImg().getName());
         
         try
         {
