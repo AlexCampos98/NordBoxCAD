@@ -177,7 +177,8 @@ public class NordBoxCADCliente
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketCliente.getOutputStream());
             objectOutputStream.writeObject(usuario);
             //TODO terminar de enviar archivo
-            enviarArchivo(usuario);
+            if(usuario.getImg() != null)
+                enviarArchivo(usuario);
 
             ObjectInputStream objectInputStream = new ObjectInputStream(socketCliente.getInputStream());
             System.out.println("Espera de resultado int");
