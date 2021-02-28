@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import sun.rmi.runtime.Log;
 
 /**
  *
@@ -261,9 +260,9 @@ public class NordBoxCADCliente
             
             bis = new BufferedInputStream(new FileInputStream(localFile));
             bos = new BufferedOutputStream(socketCliente.getOutputStream());
-
+            
             //Enviamos el fichero
-            byteArray = new byte[1024];
+            byteArray = new byte[8192];
             while ((in = bis.read(byteArray)) > 0)
             {
                 bos.write(byteArray, 0, in);
