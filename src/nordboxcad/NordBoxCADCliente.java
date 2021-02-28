@@ -5,9 +5,13 @@
  */
 package nordboxcad;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import sun.rmi.runtime.Log;
 
 /**
  *
@@ -67,21 +72,20 @@ public class NordBoxCADCliente
     public int crearUsuario(Usuario usuario) throws ExcepcionNordBox
     {
         int resultado = 0;
-        
+
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
             envioData.writeUTF("crearUsuario");
-            
+
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
-            
+
             envioObject.writeObject(usuario);
-            
+
             ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
-            
+
             resultado = (int) recepcionObject.readObject();
-            
-            
+
         } catch (IOException ex)
         {
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,10 +93,10 @@ public class NordBoxCADCliente
         {
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return resultado;
     }
-    
+
     public int insertarEjerciciosBench(EjerciciosBench bench)
     {
         int resultado = 0;
@@ -101,11 +105,11 @@ public class NordBoxCADCliente
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
             envioData.writeUTF("insertarEjerciciosBench");
 //            System.out.println("Objeto");
-            
+
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(bench);
 //            System.out.println("Recepcion");
-            
+
             ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             resultado = (int) recepcionObject.readObject();
         } catch (IOException ex)
@@ -132,7 +136,7 @@ public class NordBoxCADCliente
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
             envioData.writeUTF("comprobarLogin");
-            
+
             ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
             envioObject.writeObject(usuario);
 
@@ -160,30 +164,42 @@ public class NordBoxCADCliente
 
         return u;
     }
+
     
-    //TODO falta la fase de renombre del archivo
     public int modificarUsuarioNoPass(Usuario usuario)
     {
         int resultado = 0;
-        
+
         try
         {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
             envioData.writeUTF("modificarUsuarioNoPass");
-            
+
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketCliente.getOutputStream());
             objectOutputStream.writeObject(usuario);
-            
+            //TODO terminar de enviar archivo
+            enviarArchivo(usuario);
+
             ObjectInputStream objectInputStream = new ObjectInputStream(socketCliente.getInputStream());
+            System.out.println("Espera de resultado int");
             resultado = (int) objectInputStream.readObject();
         } catch (IOException ex)
         {
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         } catch (ClassNotFoundException ex)
         {
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
-        
+
+        try
+        {
+            socketCliente.close();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return resultado;
     }
 
@@ -199,18 +215,18 @@ public class NordBoxCADCliente
 
     }
 
-    public ArrayList<EjerciciosBench> ejeBench ()
+    public ArrayList<EjerciciosBench> ejeBench()
     {
         ArrayList<EjerciciosBench> arrayList = new ArrayList<>();
-        
-        try{
+
+        try
+        {
             DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
-            
 
             envioData.writeUTF("ejeBench");
-            
+
             ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
-            
+
             arrayList = (ArrayList<EjerciciosBench>) recepcionObject.readObject();
         } catch (IOException ex)
         {
@@ -219,14 +235,45 @@ public class NordBoxCADCliente
         {
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return arrayList;
     }
-    
+
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(Integer idUsuario, Integer idEjercicio)
     {
         ArrayList<EjercicioBenchUsuario> benchUsuarios = null;
 
         return benchUsuarios;
+    }
+
+    private void enviarArchivo(Usuario usuario)
+    {        
+        BufferedInputStream bis;
+        BufferedOutputStream bos;
+        int in;
+        byte[] byteArray;
+        //Fichero a transferir
+        final String filename = usuario.getImg().getAbsolutePath();
+
+        try
+        {
+            final File localFile = new File(filename);
+            
+            bis = new BufferedInputStream(new FileInputStream(localFile));
+            bos = new BufferedOutputStream(socketCliente.getOutputStream());
+
+            //Enviamos el fichero
+            byteArray = new byte[1024];
+            while ((in = bis.read(byteArray)) > 0)
+            {
+                bos.write(byteArray, 0, in);
+                bos.flush();
+            }
+            System.out.println("Salida de enviar foto");
+
+        } catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 }
