@@ -18,7 +18,7 @@ public class Usuario implements Serializable
     String correo, password, nombre, pApellido, sApellido, telefono, telefonoEmergencia;
     Integer codigoPostal;
     String localidad, provincia;
-    File img;
+    String rutaImg;
 
     public Usuario()
     {
@@ -31,7 +31,8 @@ public class Usuario implements Serializable
         this.password = password;
     }
 
-    public Usuario(Integer id, String correo, String password, String nombre, String pApellido, String sApellido, String telefono, String telefonoEmergencia, Integer codigoPostal, String localidad, String provincia, File img)
+    public Usuario(Integer id, String correo, String password, String nombre, String pApellido, String sApellido, String telefono, String telefonoEmergencia, 
+            Integer codigoPostal, String localidad, String provincia, String RutaImg)
     {
         this.id = id;
         this.correo = correo;
@@ -44,7 +45,7 @@ public class Usuario implements Serializable
         this.codigoPostal = codigoPostal;
         this.localidad = localidad;
         this.provincia = provincia;
-        this.img = img;
+        this.rutaImg = RutaImg;
     }
 
     public Integer getId()
@@ -157,14 +158,14 @@ public class Usuario implements Serializable
         this.provincia = provincia;
     }
 
-    public File getImg()
+    public String getImg()
     {
-        return img;
+        return rutaImg;
     }
 
-    public void setImg(File img)
+    public void setImg(String img)
     {
-        this.img = img;
+        this.rutaImg = img;
     }
 
     @Override

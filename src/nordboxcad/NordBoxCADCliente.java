@@ -141,6 +141,8 @@ public class NordBoxCADCliente
 
             ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
             u = (Usuario) recepcionObject.readObject();
+            
+//            capturarArchivo(u);
 
         } catch (IOException | ClassNotFoundException ex)
         {
@@ -253,7 +255,7 @@ public class NordBoxCADCliente
         int in;
         byte[] byteArray;
         //Fichero a transferir
-        final String filename = usuario.getImg().getAbsolutePath();
+        final String filename = usuario.getImg();
 
         try
         {
@@ -274,6 +276,68 @@ public class NordBoxCADCliente
         } catch (Exception e)
         {
             System.out.println(e);
+        }
+    }
+    
+    private int capturarArchivo(Usuario usuario)
+    {
+        System.out.println("Dentro de capturar");
+        BufferedInputStream bis;
+        BufferedOutputStream bos;
+
+        byte[] receivedData;
+        int in;
+
+        try
+        {
+            //Buffer de 1024 bytes
+            receivedData = new byte[1024];
+            bis = new BufferedInputStream(socketCliente.getInputStream());
+
+            //Para guardar fichero recibido
+            bos = new BufferedOutputStream(new FileOutputStream(getClass().getResource("/drawable/imgPerfil/" + usuario.getId() + ".jpg").getPath()));
+            while ((in = bis.read(receivedData)) > 1023)
+            {
+                bos.write(receivedData, 0, in);
+                bos.flush();
+            }
+            return 1;
+
+        } catch (Exception e)
+        {
+            System.err.println(e);
+            return 0;
+        }
+    }
+    
+    public int capturarArchivoPublico(File imgRuta)
+    {
+        System.out.println("Dentro de capturar");
+        BufferedInputStream bis;
+        BufferedOutputStream bos;
+
+        byte[] receivedData;
+        int in;
+
+        try
+        {
+            //Buffer de 1024 bytes
+            receivedData = new byte[8192];
+            bis = new BufferedInputStream(socketCliente.getInputStream());
+
+            //Para guardar fichero recibido
+            bos = new BufferedOutputStream(new FileOutputStream(imgRuta.getAbsolutePath()));
+            while ((in = bis.read(receivedData)) > 1023)
+            {
+                bos.write(receivedData, 0, in);
+                bos.flush();
+            }
+            return 1;
+
+        } catch (Exception e)
+        {
+            System.err.println(e);
+            return 0;
         }
     }
 }
