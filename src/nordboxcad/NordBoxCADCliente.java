@@ -204,6 +204,44 @@ public class NordBoxCADCliente
         }
         return resultado;
     }
+    
+    public int modificarUsuarioPass(Usuario usuario)
+    {
+        int resultado = 0;
+
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("modificarUsuarioPass");
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketCliente.getOutputStream());
+            objectOutputStream.writeObject(usuario);
+            //TODO terminar de enviar archivo
+            if(usuario.getImg() != null)
+                enviarArchivo(usuario);
+
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketCliente.getInputStream());
+            System.out.println("Espera de resultado int");
+            resultado = (int) objectInputStream.readObject();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        } catch (ClassNotFoundException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+        }
+
+        try
+        {
+            socketCliente.close();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
 
     /**
      * Creacion de un registro en la tabla ejercicioBenchUsuario
