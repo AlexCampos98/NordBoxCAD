@@ -152,9 +152,24 @@ public class NordBoxCADCliente
         return u;
     }
 
-    public Usuario buscarUsuarioID(Integer id)
+    public Usuario buscarUsuarioID(Usuario usuario)
     {
         Usuario u = null;
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("buscarUsuarioID");
+
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
+            envioObject.writeObject(usuario);
+
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            u = (Usuario) recepcionObject.readObject();
+
+        } catch (IOException | ClassNotFoundException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return u;
     }

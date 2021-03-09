@@ -5,7 +5,6 @@
  */
 package nordboxcad;
 
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -24,6 +23,11 @@ public class Usuario implements Serializable
     {
     }
 
+    public Usuario(Integer id)
+    {
+        this.id = id;
+    }
+    
     public Usuario(Integer id, String correo, String password)
     {
         this.id = id;
