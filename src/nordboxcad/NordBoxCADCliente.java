@@ -293,6 +293,22 @@ public class NordBoxCADCliente
 
         return arrayList;
     }
+    
+    public void crearEvento(Evento evento)
+    {
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("crearEvento");
+
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
+
+            envioObject.writeObject(evento);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(Integer idUsuario, Integer idEjercicio)
     {
