@@ -5,7 +5,8 @@
  */
 package nordboxcad;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -21,18 +22,15 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        File origen = new File("C:\\Users\\alex_\\Desktop\\Avatares\\prueba1.jpg");
-       
-        Usuario usuario = new Usuario(3, "aa@aa.aa", null ,"nombre1", "apellido", "2Apellido", "134654", "5664", 123, "sad", "asdda", origen.getAbsolutePath());
-        System.out.println("Comienza la modificacion");
-        int resultado = boxCAD.modificarUsuarioNoPass(usuario);
-        System.out.println("Termina");
-        if(resultado>0)
-        {
-            System.out.println("Exito");
-        } else
-        {
-            System.out.println("Fallo");
+        EjercicioBenchUsuario benchUsuario = new EjercicioBenchUsuario(0, 4, 3, null, null);
+        
+        ArrayList<EjercicioBenchUsuario> al = boxCAD.ejeBenchUsuario(benchUsuario);
+        
+        Iterator<EjercicioBenchUsuario> i = al.iterator();
+        
+        while (i.hasNext())
+        {            
+            System.out.println(i.next().toString());
         }
     }
 }
