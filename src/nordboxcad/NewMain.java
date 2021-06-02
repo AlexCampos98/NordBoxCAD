@@ -22,7 +22,7 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        EjercicioBenchUsuario benchUsuario = new EjercicioBenchUsuario(0, 4, 3, null, null);
+        EjercicioBenchUsuario benchUsuario = new EjercicioBenchUsuario(0, 4, 3, null, null, null);
         
         ArrayList<EjercicioBenchUsuario> al = boxCAD.ejeBenchUsuario(benchUsuario);
         
