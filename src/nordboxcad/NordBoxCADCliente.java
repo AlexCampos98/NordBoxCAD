@@ -261,13 +261,24 @@ public class NordBoxCADCliente
     /**
      * Creacion de un registro en la tabla ejercicioBenchUsuario
      *
-     * @param idUsuario
-     * @param idEjercicio
-     * @param peso
+     * @param apuntoEjercicio
      */
-    public void crearEjeBench(Integer idUsuario, Integer idEjercicio, Integer peso)
+    public void crearEjeBench(ApuntoEjercicio apuntoEjercicio)
     {
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("crearEjeBench");
+            envioData.flush();
 
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
+
+            envioObject.writeObject(apuntoEjercicio);
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ArrayList<EjerciciosBench> ejeBench()

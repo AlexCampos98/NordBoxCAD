@@ -22,15 +22,8 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        EjercicioBenchUsuario benchUsuario = new EjercicioBenchUsuario(0, 4, 3, null, null, null);
+        ApuntoEjercicio apuntoEjercicio = new ApuntoEjercicio(5, 1, "2021-6-2", 46, 5);
         
-        ArrayList<EjercicioBenchUsuario> al = boxCAD.ejeBenchUsuario(benchUsuario);
-        
-        Iterator<EjercicioBenchUsuario> i = al.iterator();
-        
-        while (i.hasNext())
-        {            
-            System.out.println(i.next().toString());
-        }
+        boxCAD.crearEjeBench(apuntoEjercicio);
     }
 }
