@@ -22,8 +22,17 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        ApuntoEjercicio apuntoEjercicio = new ApuntoEjercicio(5, 1, "2021-6-2", 46, 5);
+        Evento evento = new Evento();
+        evento.setFecha("2021/06/04");
         
-        boxCAD.crearEjeBench(apuntoEjercicio);
+        ArrayList<Evento> eventos = boxCAD.obtenerEventosFecha(evento);
+        
+        Iterator<Evento> iterator = eventos.iterator();
+        System.out.println(iterator.hasNext());
+        while(iterator.hasNext())
+        {
+            System.out.println("A");
+            System.out.println(iterator.next().toString());
+        }
     }
 }

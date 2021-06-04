@@ -320,6 +320,29 @@ public class NordBoxCADCliente
             Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public ArrayList<Evento> obtenerEventosFecha(Evento evento)
+    {
+        ArrayList<Evento> arrayList = new ArrayList<>();
+
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("obtenerEventosFecha");
+
+            ObjectOutputStream envioObject = new ObjectOutputStream(socketCliente.getOutputStream());
+            envioObject.writeObject(evento);
+
+            ObjectInputStream recepcionObject = new ObjectInputStream(socketCliente.getInputStream());
+            arrayList = (ArrayList<Evento>) recepcionObject.readObject();
+
+        } catch (IOException | ClassNotFoundException ex)
+        {
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return arrayList;
+    }
 
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(EjercicioBenchUsuario benchUsuario)
     {
