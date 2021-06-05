@@ -22,17 +22,6 @@ public class NewMain
     {      
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
-        Evento evento = new Evento();
-        evento.setFecha("2021/06/05");
-        
-        ArrayList<Evento> eventos = boxCAD.obtenerEventosFecha(evento);
-        
-        Iterator<Evento> iterator = eventos.iterator();
-        System.out.println(iterator.hasNext());
-        while(iterator.hasNext())
-        {
-            System.out.println("A");
-            System.out.println(iterator.next().toString());
-        }
+        boxCAD.desapuntarseEvento(1, 3);
     }
 }

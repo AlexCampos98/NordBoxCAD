@@ -343,6 +343,42 @@ public class NordBoxCADCliente
 
         return arrayList;
     }
+    
+    public void apuntarseEvento(Integer idUsuario, Integer idEvento)
+    {
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("apuntarseEvento");
+
+            DataOutputStream dataOutputStream = new DataOutputStream(socketCliente.getOutputStream());
+
+            dataOutputStream.writeInt(idUsuario);
+            dataOutputStream.writeInt(idEvento);
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void desapuntarseEvento(Integer idUsuario, Integer idEvento)
+    {
+        try
+        {
+            DataOutputStream envioData = new DataOutputStream(socketCliente.getOutputStream());
+            envioData.writeUTF("desapuntarseEvento");
+
+            DataOutputStream dataOutputStream = new DataOutputStream(socketCliente.getOutputStream());
+
+            dataOutputStream.writeInt(idUsuario);
+            dataOutputStream.writeInt(idEvento);
+        } catch (IOException ex)
+        {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(NordBoxCADCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public ArrayList<EjercicioBenchUsuario> ejeBenchUsuario(EjercicioBenchUsuario benchUsuario)
     {
