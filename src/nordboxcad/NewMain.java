@@ -23,7 +23,7 @@ public class NewMain
         NordBoxCADCliente boxCAD = new NordBoxCADCliente();
         
         Evento evento = new Evento();
-        evento.setFecha("2021/06/04");
+        evento.setFecha("2021/06/05");
         
         ArrayList<Evento> eventos = boxCAD.obtenerEventosFecha(evento);
         
